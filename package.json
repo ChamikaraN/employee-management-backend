@@ -1,0 +1,38 @@
+{
+  "name": "employee-management-backend",
+  "version": "1.0.0",
+  "description": "A simple CRUD-based backend to manage employees",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js --inspect",
+    "test": "mocha tests/*test.js --timeout 10000"
+  },
+  "dependencies": {
+    "axios": "^1.4.0",
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.2.2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^4.6.3"
+  },
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "chai-http": "^4.3.0",
+    "mocha": "^10.2.0",
+    "nodemon": "^2.0.14",
+    "supertest": "^6.3.3"
+  },
+  "engines": {
+    "node": ">=14.17.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/username/employee-management-backend.git"
+  },
+  "author": "Chamikara Nayanajith",
+  "license": "MIT"
+}
