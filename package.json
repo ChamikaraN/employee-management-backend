@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "NODE_ENV=development nodemon app.js --inspect",
     "start": "node app.js",
-    "test:unit": "NODE_ENV=test mocha tests/*unit.test.js --timeout 10000",
-    "test:integration": "mocha tests/*integration.test.js --timeout 10000"
+    "test:unit": "NODE_ENV=test mocha tests/*.test.js --timeout 10000",
+    "test:integration": "mocha tests/*.test.js --timeout 10000"
   },
   "dependencies": {
     "axios": "^1.4.0",

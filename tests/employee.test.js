@@ -7,7 +7,11 @@ const { default: mongoose } = require("mongoose");
 const expect = chai.expect;
 chai.use(chaiHttp);
 
-describe("Employee Management API Integration Test", () => {
+const env = process.env.NODE_ENV;
+
+describe(`Employee Management API ${
+  env === "test" ? "Unit" : "Integration"
+} Test`, () => {
   // Set up a test employee
   let testEmployeeId;
   // Setup newly created employee Id
@@ -115,6 +119,7 @@ describe("Employee Management API Integration Test", () => {
         .request(app)
         .get("/api/v1/employee")
         .end(function (err, res) {
+          console.log(res.body);
           expect(res).to.have.status(200);
           expect(res.body).to.be.an("array");
           done();
@@ -238,7 +243,8 @@ describe("Employee Management API Integration Test", () => {
 
   // Clean up test data after tests complete
   after(async () => {
-    // Delete the employee created in before
-    await Employee.findByIdAndDelete(newEmployeeId);
+    env === "test"
+      ? await Employee.deleteMany({})
+      : await Employee.findByIdAndDelete(newEmployeeId);
   });
 });
