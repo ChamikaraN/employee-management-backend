@@ -10,8 +10,6 @@ chai.use(chaiHttp);
 describe("Employee Management API Unit Test", () => {
   // Set up a test employee
   let testEmployeeId;
-  // Setup newly created employee Id
-  let newEmployeeId;
 
   before((done) => {
     app.on("ready", () => {
@@ -74,9 +72,6 @@ describe("Employee Management API Unit Test", () => {
           expect(res.body).to.have.property("gender", "M");
           // Check that the response body does not contain any fields that were not sent in the request.
           expect(res.body).to.not.have.property("password");
-
-          // Save the new employee ID to the global variable
-          newEmployeeId = res.body._id;
 
           done();
         });
