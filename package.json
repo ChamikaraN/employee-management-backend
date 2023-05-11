@@ -4,7 +4,7 @@
   "description": "A simple CRUD-based backend to manage employees",
   "main": "app.js",
   "scripts": {
-    "dev": "NODE_ENV=test nodemon app.js --inspect",
+    "dev": "NODE_ENV=development nodemon app.js --inspect",
     "start": "node app.js",
     "test:unit": "NODE_ENV=test mocha tests/*unit.test.js --timeout 10000",
     "test:integration": "mocha tests/*integration.test.js --timeout 10000"
