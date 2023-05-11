@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const db = require("./src/config/db.js");
-const errorHandler = require("./src/middlewares/error");
+const errorHandler = require("./src/middleware/error");
 const employeeRouter = require("./src/routes/employee");
 const swagger = require("./swagger");
 

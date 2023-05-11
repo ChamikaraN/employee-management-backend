@@ -4,9 +4,10 @@
   "description": "A simple CRUD-based backend to manage employees",
   "main": "app.js",
   "scripts": {
+    "dev": "NODE_ENV=test nodemon app.js --inspect",
     "start": "node app.js",
-    "dev": "nodemon app.js --inspect",
-    "test": "mocha tests/*test.js --timeout 10000"
+    "test:unit": "NODE_ENV=test mocha tests/*unit.test.js --timeout 10000",
+    "test:integration": "mocha tests/*integration.test.js --timeout 10000"
   },
   "dependencies": {
     "axios": "^1.4.0",
@@ -23,6 +24,7 @@
     "chai": "^4.3.7",
     "chai-http": "^4.3.0",
     "mocha": "^10.2.0",
+    "mongodb-memory-server": "^8.12.2",
     "nodemon": "^2.0.14",
     "supertest": "^6.3.3"
   },

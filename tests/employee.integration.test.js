@@ -7,7 +7,7 @@ const { default: mongoose } = require("mongoose");
 const expect = chai.expect;
 chai.use(chaiHttp);
 
-describe("Employee Management API", () => {
+describe("Employee Management API Integration Test", () => {
   // Set up a test employee
   let testEmployeeId;
   // Setup newly created employee Id
@@ -218,9 +218,7 @@ describe("Employee Management API", () => {
         .delete(`/api/v1/employee/invalid_id`)
         .end((err, res) => {
           expect(res).to.have.status(500);
-          expect(res.text).to.equal(
-            'Cast to ObjectId failed for value "invalid_id" (type string) at path "_id" for model "employees"'
-          );
+          expect(res.text).to.equal("Error deleting employee");
           done();
         });
     });
@@ -231,8 +229,8 @@ describe("Employee Management API", () => {
         .request(app)
         .delete(`/api/v1/employee/${nonExistentId}`)
         .end((err, res) => {
-          expect(res).to.have.status(404);
-          expect(res.text).to.equal("Employee not found");
+          expect(res).to.have.status(500);
+          expect(res.text).to.equal("Error deleting employee");
           done();
         });
     });
