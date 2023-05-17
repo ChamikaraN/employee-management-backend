@@ -3,6 +3,7 @@ const chaiHttp = require("chai-http");
 const app = require("../app");
 const Employee = require("../src/models/employee");
 const { default: mongoose } = require("mongoose");
+const authService = require("../src/services/authService");
 
 const expect = chai.expect;
 chai.use(chaiHttp);
@@ -16,6 +17,8 @@ describe(`Employee Management API ${
   let testEmployeeId;
   // Setup newly created employee Id
   let newEmployeeId;
+  // Variable to store JWT tokens
+  let tokens;
 
   before((done) => {
     app.on("ready", () => {
@@ -34,6 +37,9 @@ describe(`Employee Management API ${
     });
     const savedEmployee = await testEmployee.save();
     testEmployeeId = savedEmployee._id;
+
+    // Generate tokens for authentication
+    tokens = authService.generateAccessToken();
   });
 
   describe("Root Endpoint", function () {
@@ -62,6 +68,7 @@ describe(`Employee Management API ${
       chai
         .request(app)
         .post("/api/v1/employee")
+        .set("Authorization", `Bearer ${tokens.accessToken}`)
         .send(newEmployee)
         .end(function (err, res) {
           expect(res).to.have.status(201);
@@ -98,6 +105,7 @@ describe(`Employee Management API ${
       chai
         .request(app)
         .post("/api/v1/employee")
+        .set("Authorization", `Bearer ${tokens.accessToken}`)
         .send(invalidEmployee)
         .end(function (err, res) {
           expect(res).to.have.status(400);
@@ -118,8 +126,8 @@ describe(`Employee Management API ${
       chai
         .request(app)
         .get("/api/v1/employee")
+        .set("Authorization", `Bearer ${tokens.accessToken}`)
         .end(function (err, res) {
-          console.log(res.body);
           expect(res).to.have.status(200);
           expect(res.body).to.be.an("array");
           done();
@@ -140,6 +148,7 @@ describe(`Employee Management API ${
       chai
         .request(app)
         .put(`/api/v1/employee/${testEmployeeId}`)
+        .set("Authorization", `Bearer ${tokens.accessToken}`)
         .send(updatedEmployee)
         .end(function (err, res) {
           expect(res).to.have.status(200);
@@ -173,6 +182,7 @@ describe(`Employee Management API ${
       chai
         .request(app)
         .put("/api/v1/employee/invalid-id")
+        .set("Authorization", `Bearer ${tokens.accessToken}`)
         .send(updatedEmployee)
         .end(function (err, res) {
           expect(res).to.have.status(400);
@@ -192,6 +202,7 @@ describe(`Employee Management API ${
       chai
         .request(app)
         .put(`/api/v1/employee/${testEmployeeId}`)
+        .set("Authorization", `Bearer ${tokens.accessToken}`)
         .send(invalidEmployee)
         .end(function (err, res) {
           expect(res).to.have.status(400);
@@ -210,6 +221,7 @@ describe(`Employee Management API ${
       chai
         .request(app)
         .delete(`/api/v1/employee/${testEmployeeId}`)
+        .set("Authorization", `Bearer ${tokens.accessToken}`)
         .end((err, res) => {
           expect(res).to.have.status(200);
           expect(res.text).to.equal("Employee deleted successfully");
@@ -221,6 +233,7 @@ describe(`Employee Management API ${
       chai
         .request(app)
         .delete(`/api/v1/employee/invalid_id`)
+        .set("Authorization", `Bearer ${tokens.accessToken}`)
         .end((err, res) => {
           expect(res).to.have.status(500);
           expect(res.text).to.equal("Error deleting employee");
@@ -233,6 +246,7 @@ describe(`Employee Management API ${
       chai
         .request(app)
         .delete(`/api/v1/employee/${nonExistentId}`)
+        .set("Authorization", `Bearer ${tokens.accessToken}`)
         .end((err, res) => {
           expect(res).to.have.status(500);
           expect(res.text).to.equal("Error deleting employee");

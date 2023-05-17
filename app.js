@@ -4,7 +4,9 @@ const cors = require("cors");
 const db = require("./src/config/db.js");
 const errorHandler = require("./src/middleware/error");
 const employeeRouter = require("./src/routes/employee");
+const authRouter = require("./src/routes/auth");
 const swagger = require("./swagger");
+const logger = require("./src/utils/logger.js");
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -21,6 +23,9 @@ app.get("/", (req, res) => {
 });
 
 // Routes
+// Auth Route
+app.use("/api/v1/auth", authRouter);
+// Employee Route
 app.use("/api/v1/employee", employeeRouter);
 
 // Error handling middleware
@@ -29,9 +34,9 @@ app.use(errorHandler);
 // Connect to database and start server
 db.connect()
   .then(() => {
-    console.log("Connected to database!");
+    logger.info("Connected to database!");
     app.listen(PORT, () => {
-      console.log(`Server started on port ${PORT}`);
+      logger.info(`Server started on port ${PORT}`);
       app.emit("ready"); // emit the ready event
     });
   })

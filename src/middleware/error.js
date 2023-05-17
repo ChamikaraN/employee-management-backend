@@ -5,8 +5,10 @@ function errorHandler(err, req, res, next) {
     return next(err);
   }
 
-  res.status(500);
-  res.render("error", { error: err });
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Internal Server Error";
+  logger.error(message);
+  res.status(statusCode).json({ error: message });
 }
 
 module.exports = errorHandler;
