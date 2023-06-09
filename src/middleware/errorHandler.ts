@@ -1,4 +1,12 @@
-function errorHandler(err, req, res, next) {
+import { Request, Response, NextFunction } from "express";
+import logger from "../utils/logger";
+
+function errorHandler(
+  err: any,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   console.error(err.stack);
 
   if (res.headersSent) {
@@ -11,4 +19,4 @@ function errorHandler(err, req, res, next) {
   res.status(statusCode).json({ error: message });
 }
 
-module.exports = errorHandler;
+export default errorHandler;

@@ -1,24 +1,24 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const cors = require("cors");
-const db = require("./src/config/db.js");
-const errorHandler = require("./src/middleware/error");
-const employeeRouter = require("./src/routes/employee");
-const authRouter = require("./src/routes/auth");
-const swagger = require("./swagger");
-const logger = require("./src/utils/logger.js");
+import express, { Application, Request, Response } from "express";
+import bodyParser from "body-parser";
+import cors from "cors";
+import helmet from "helmet";
+import { connect } from "./config/db";
+import errorHandler from "./middleware/errorHandler";
+import logger from "./utils/logger";
+import authRouter from "./routes/auth";
+import employeeRouter from "./routes/employee";
 
-const app = express();
-const PORT = process.env.PORT || 4000;
+const app: Application = express();
+const PORT = process.env.PORT ?? 4000;
 
 // Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
-app.use("/", swagger);
+app.use(helmet());
 
 // Testing root endpoint
-app.get("/", (req, res) => {
+app.get("/", (req: Request, res: Response) => {
   res.send("Hey this is my API running 🥳");
 });
 
@@ -32,7 +32,7 @@ app.use("/api/v1/employee", employeeRouter);
 app.use(errorHandler);
 
 // Connect to database and start server
-db.connect()
+connect()
   .then(() => {
     logger.info("Connected to database!");
     app.listen(PORT, () => {
@@ -40,8 +40,8 @@ db.connect()
       app.emit("ready"); // emit the ready event
     });
   })
-  .catch((err) => {
+  .catch((err: Error) => {
     console.error(err);
   });
 
-module.exports = app;
+export default app;

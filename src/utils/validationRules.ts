@@ -29,4 +29,4 @@ const validationRules = {
   },
 };
 
-module.exports = { validationRules };
+export { validationRules };
