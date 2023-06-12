@@ -13,7 +13,7 @@ const validationRules = {
   },
   email: {
     required: true,
-    pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+    pattern: /^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/i,
     message: "Invalid email address",
   },
   number: {
@@ -29,4 +29,4 @@ const validationRules = {
   },
 };
 
-module.exports = { validationRules };
+export { validationRules };

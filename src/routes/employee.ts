@@ -1,7 +1,13 @@
-const express = require("express");
-const router = express.Router();
-const employeeController = require("../controllers/employeeController");
-const authenticateToken = require("../middleware/authenticateToken");
+import express, { Router } from "express";
+import {
+  createEmployee,
+  getAllEmployees,
+  updateEmployee,
+  deleteEmployee,
+} from "../controllers/employeeController";
+import authenticateToken from "../middleware/authenticateToken";
+
+const router: Router = express.Router();
 
 /**
  * @swagger
@@ -108,7 +114,7 @@ const authenticateToken = require("../middleware/authenticateToken");
  *           $ref: '#/definitions/Error'
  */
 
-router.post("/", authenticateToken, employeeController.createEmployee);
+router.post("/", authenticateToken, createEmployee);
 
 // Route for getting all employees
 /**
@@ -131,7 +137,7 @@ router.post("/", authenticateToken, employeeController.createEmployee);
  *         schema:
  *           $ref: '#/definitions/Error'
  */
-router.get("/", authenticateToken, employeeController.getAllEmployees);
+router.get("/", authenticateToken, getAllEmployees);
 
 // Route for updating an employee by ID
 /**
@@ -192,7 +198,7 @@ router.get("/", authenticateToken, employeeController.getAllEmployees);
  *         schema:
  *           $ref: '#/definitions/Error'
  */
-router.put("/:id", authenticateToken, employeeController.updateEmployee);
+router.put("/:id", authenticateToken, updateEmployee);
 
 // Route for deleting an employee by ID
 /**
@@ -224,6 +230,6 @@ router.put("/:id", authenticateToken, employeeController.updateEmployee);
  *           $ref: '#/definitions/Error'
  */
 
-router.delete("/:id", authenticateToken, employeeController.deleteEmployee);
+router.delete("/:id", authenticateToken, deleteEmployee);
 
-module.exports = router;
+export default router;

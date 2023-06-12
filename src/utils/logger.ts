@@ -1,7 +1,7 @@
-const { format, createLogger, transports } = require("winston");
-const { combine, timestamp, label, printf, prettyPrint } = format;
-const DailyRotateFile = require("winston-daily-rotate-file");
-const { MongoDB } = require("winston-mongodb");
+import { format, createLogger, transports } from "winston";
+import DailyRotateFile from "winston-daily-rotate-file";
+
+const { combine, timestamp, label, prettyPrint } = format;
 const CATEGORY = "EmpMngSys";
 
 let loggerTransports = [
@@ -24,21 +24,6 @@ let loggerTransports = [
   }),
 ];
 
-// Check if running in production
-if (process.env.NODE_ENV === "production") {
-  loggerTransports = [
-    new MongoDB({
-      level: "debug",
-      db: process.env.MONGODB_URL,
-      options: {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      },
-      collection: "logs",
-    }),
-  ];
-}
-
 const logger = createLogger({
   level: "debug",
   format: combine(
@@ -51,4 +36,4 @@ const logger = createLogger({
   transports: loggerTransports,
 });
 
-module.exports = logger;
+export default logger;
