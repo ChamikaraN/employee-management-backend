@@ -1,55 +1,68 @@
-const employeeService = require("../services/employeeService");
-const validateInput = require("../middleware/validateEmployee");
-const logger = require("../utils/logger");
+import { Request, Response } from "express";
+import * as employeeService from "../services/employeeService";
+import validateInput from "../middleware/validateEmployee";
+import logger from "../utils/logger";
 
 // Controller function for creating a new employee
-exports.createEmployee = async (req, res) => {
+export const createEmployee = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const employee = await employeeService.createEmployee(req.body);
     res.status(201).send(employee);
-  } catch (error) {
+  } catch (error: any) {
     logger.error(error.message);
     res.status(400).send(error.message);
   }
 };
 
 // Use the validateInput middleware in the createEmployee function
-exports.createEmployee = [validateInput, exports.createEmployee];
+export const createEmployeeMiddleware = [validateInput, createEmployee];
 
 // Controller function for getting all employees
-exports.getAllEmployees = async (req, res) => {
+export const getAllEmployees = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const employees = await employeeService.getAllEmployees();
     res.status(200).send(employees);
-  } catch (error) {
+  } catch (error: any) {
     logger.error(error.message);
     res.status(500).send(error.message);
   }
 };
 
 // Controller function for updating an employee by ID
-exports.updateEmployee = async (req, res) => {
+export const updateEmployee = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const employee = await employeeService.updateEmployee(
       req.params.id,
       req.body
     );
     res.status(200).send(employee);
-  } catch (error) {
+  } catch (error: any) {
     logger.error(error.message);
     res.status(400).send(error.message);
   }
 };
 
 // Use the validateInput middleware in the updateEmployee function
-exports.updateEmployee = [validateInput, exports.updateEmployee];
+export const updateEmployeeMiddleware = [validateInput, updateEmployee];
 
 // Controller function for deleting an employee by ID
-exports.deleteEmployee = async (req, res) => {
+export const deleteEmployee = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     await employeeService.deleteEmployee(req.params.id);
     res.status(200).send("Employee deleted successfully");
-  } catch (error) {
+  } catch (error: any) {
     logger.error(error.message);
     res.status(500).send(error.message);
   }

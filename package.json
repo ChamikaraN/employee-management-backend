@@ -2,12 +2,14 @@
   "name": "employee-management-backend",
   "version": "1.0.0",
   "description": "A simple CRUD-based backend to manage employees",
-  "main": "app.js",
+  "main": "dist/app.js",
   "scripts": {
-    "dev": "NODE_ENV=development nodemon app.js --inspect",
-    "start": "node app.js",
-    "test:unit": "NODE_ENV=test mocha tests/*.test.js --timeout 10000",
-    "test:integration": "mocha tests/*.test.js --timeout 10000"
+    "start": "node dist/app.js",
+    "dev": "concurrently \"tsc -w\" \"nodemon NODE_ENV=development dist/index.js -q  --inspect\"",
+    "build": "tsc",
+    "serve": "node dist/server.js",
+    "lint": "eslint src --ext .ts",
+    "prettify": "prettier --write \"src/**/*.ts\""
   },
   "dependencies": {
     "axios": "^1.4.0",
@@ -15,7 +17,8 @@
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "jsonwebtoken": "^8.5.1",
+    "helmet": "^4.6.0",
+    "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.2.2",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^4.6.3",
@@ -24,15 +27,26 @@
     "winston-mongodb": "^5.1.1"
   },
   "devDependencies": {
-    "chai": "^4.3.7",
-    "chai-http": "^4.3.0",
-    "mocha": "^10.2.0",
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "@types/jsonwebtoken": "^9.0.2",
+    "@types/mongodb-memory-server": "^2.3.0",
+    "@types/mongoose": "^5.11.97",
+    "@types/node": "^16.11.5",
+    "@typescript-eslint/eslint-plugin": "^5.9.1",
+    "@typescript-eslint/parser": "^5.9.1",
+    "concurrently": "^7.0.0",
+    "eslint": "^8.3.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
     "mongodb-memory-server": "^8.12.2",
-    "nodemon": "^2.0.14",
-    "supertest": "^6.3.3"
+    "nodemon": "^2.0.13",
+    "prettier": "^2.4.1",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.4"
   },
   "engines": {
-    "node": ">=14.17.0"
+    "node": "14.x"
   },
   "repository": {
     "type": "git",

@@ -1,7 +1,7 @@
-const axios = require("axios");
+import axios from "axios";
 
-const getPhoto = async (gender) => {
-  let url;
+export async function getPhoto(gender: string): Promise<string> {
+  let url: string;
   if (gender === "M") {
     url = "https://randomuser.me/api/?gender=male";
   } else if (gender === "F") {
@@ -17,6 +17,4 @@ const getPhoto = async (gender) => {
   } catch (error) {
     throw new Error("Failed to fetch employee photo");
   }
-};
-
-module.exports = { getPhoto };
+}
