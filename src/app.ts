@@ -14,7 +14,21 @@ const PORT = process.env.PORT ?? 4000;
 // Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
+
+const allowedOrigins = [
+  "https://employee-management-frontend-chami.vercel.app",
+  "http://localhost:3000",
+];
+app.use(
+  cors({
+    origin: allowedOrigins,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    exposedHeaders: ["Authorization"],
+    credentials: true,
+  })
+);
+
 app.use(helmet());
 
 // Testing root endpoint
